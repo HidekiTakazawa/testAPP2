@@ -129,6 +129,7 @@
         for (i = 3; i < question.length; i++) {
           span = document.createElement('span');
           span.textContent = question[i];
+          span.setAttribute('oncdbllick', 'speakDataX(this)')
           span.setAttribute('onclick', 'speakDataX(this)')
           span.setAttribute('onmousedown', 'speakData(this)')
 
