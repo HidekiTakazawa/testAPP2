@@ -63,13 +63,13 @@
 
 
   <script>
-    window.addEventListener('touchstart', (e) => {
-      speakDataX(e);
-    })
+
     let cssIndex = 0;
     const questions = [
       ['A', '我的爱好是看电影', '私の趣味は映画を見ることです。', '电影', '看', '是', '我', '的', '爱好'],
 
+      ['A', '我是日本人', '私は日本人です。', '日本人', '我', '是'],
+      ['A', '我每天学习中文', '私は毎日中国語を勉強します。', '学习', '每天', '中文', '我'],
     ]
 
     renderQuestion();
@@ -78,17 +78,9 @@
     // var answerAll = classElement[0].classList('answer');
     // var questionAll = classElement[0].classList('question');
 
-    const answerID = document.getElementById('answerID');
-    const questionID = document.getElementById('questionID');
-    new Sortable(answerID, {
-      group: 'shared', // set both lists to same group
-      animation: 150
-    });
+    // const answerID = document.getElementsByClassName('answerID');
+    // const questionID = document.getElementsByClassName('questionID');
 
-    new Sortable(questionID, {
-      group: 'shared',
-      animation: 150
-    });
 
     function renderQuestion() {
       const container = document.getElementById('container');
@@ -111,8 +103,8 @@
         // 
         divSpanGroup = document.createElement('div');
         div = document.createElement('div');
-        div.setAttribute('class', 'answer member');
-        div.setAttribute('id', 'answerID');
+        div.setAttribute('class', 'answer member answerID');
+        // div.setAttribute('id', 'answerID');
         divSpanGroup.appendChild(div);
         span = document.createElement('span');
         span.textContent = '回答：　';
@@ -120,8 +112,8 @@
         div.appendChild(span);
         // 
         div = document.createElement('div');
-        div.setAttribute('class', 'question member');
-        div.setAttribute('id', 'questionID');
+        div.setAttribute('class', 'question member questiodID');
+        // div.setAttribute('id', 'questionID');
 
         divSpanGroup.appendChild(div);
         span = document.createElement('span');
@@ -206,7 +198,25 @@
         }
 
       }
+      spanSortable();
     });
+    function spanSortable() {
+      let answerGroup = document.querySelectorAll('.answer');;
+      let questionGroup = document.querySelectorAll('.question');;
+      let answerSpans = answerGroup[cssIndex];
+      let questionSpans = questionGroup[cssIndex];
+      new Sortable(answerSpans, {
+        group: 'shared', // set both lists to same group
+        animation: 150
+      });
+
+      new Sortable(questionSpans, {
+        group: 'shared',
+        animation: 150
+      });
+
+
+    }
     function speakDataX(param1, param2) {
 
       const quizPattern = questions[cssIndex][0];
@@ -272,7 +282,7 @@
       for (let i = 1; i < classElement.length; i++) {
         classElement[i].classList.add("dataNone");
       }
-
+      spanSortable();
     }
 
   </script>
