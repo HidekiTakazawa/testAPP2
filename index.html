@@ -63,10 +63,13 @@
 
 
   <script>
+    window.addEventListener('touchmove', (e) => {
+      speakDataX(e);
+    })
     let cssIndex = 0;
     const questions = [
       ['A', '我的爱好是看电影', '私の趣味は映画を見ることです。', '电影', '看', '是', '我', '的', '爱好'],
-     
+
     ]
 
     renderQuestion();
@@ -74,7 +77,7 @@
     // var classElement = document.getElementsByClassName('dataContent');
     // var answerAll = classElement[0].classList('answer');
     // var questionAll = classElement[0].classList('question');
-   
+
     const answerID = document.getElementById('answerID');
     const questionID = document.getElementById('questionID');
     new Sortable(answerID, {
@@ -86,7 +89,7 @@
       group: 'shared',
       animation: 150
     });
-    
+
     function renderQuestion() {
       const container = document.getElementById('container');
       let div, p, span, divContent, divSpanGroup;
@@ -119,7 +122,7 @@
         div = document.createElement('div');
         div.setAttribute('class', 'question member');
         div.setAttribute('id', 'questionID');
-        
+
         divSpanGroup.appendChild(div);
         span = document.createElement('span');
         span.textContent = '問題：　';
