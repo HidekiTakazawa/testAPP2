@@ -136,7 +136,7 @@
     function spanTouched(e) {
       const box = $(e);
 
-      box.on("touchend", function () {
+      box.on("touchend", function (e) {
         console.log('touchend');
         speakDataX(e);
       });
