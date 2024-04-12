@@ -32,6 +32,7 @@
     .hanyuNoDisplay {
       display: none;
     }
+
     .member {
       margin-bottom: 20px;
     }
@@ -45,6 +46,7 @@
       cursor: pointer;
     }
   </style>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/Sortable/1.15.0/Sortable.min.js"></script>
 </head>
 
 <body>
@@ -58,44 +60,36 @@
   <button id="check">チェック</button>
   <button id="next">次の問題</button>
 
-  <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
-  <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
-  <script>
 
-    /*!
- * jQuery UI Touch Punch 0.2.3
- *
- * Copyright 2011–2014, Dave Furfero
- * Dual licensed under the MIT or GPL Version 2 licenses.
- *
- * Depends:
- *  jquery.ui.widget.js
- *  jquery.ui.mouse.js
- */
-    !function (a) { function f(a, b) { if (!(a.originalEvent.touches.length > 1)) { a.preventDefault(); var c = a.originalEvent.changedTouches[0], d = document.createEvent("MouseEvents"); d.initMouseEvent(b, !0, !0, window, 1, c.screenX, c.screenY, c.clientX, c.clientY, !1, !1, !1, !1, 0, null), a.target.dispatchEvent(d) } } if (a.support.touch = "ontouchend" in document, a.support.touch) { var e, b = a.ui.mouse.prototype, c = b._mouseInit, d = b._mouseDestroy; b._touchStart = function (a) { var b = this; !e && b._mouseCapture(a.originalEvent.changedTouches[0]) && (e = !0, b._touchMoved = !1, f(a, "mouseover"), f(a, "mousemove"), f(a, "mousedown")) }, b._touchMove = function (a) { e && (this._touchMoved = !0, f(a, "mousemove")) }, b._touchEnd = function (a) { e && (f(a, "mouseup"), f(a, "mouseout"), this._touchMoved || f(a, "click"), e = !1) }, b._mouseInit = function () { var b = this; b.element.bind({ touchstart: a.proxy(b, "_touchStart"), touchmove: a.proxy(b, "_touchMove"), touchend: a.proxy(b, "_touchEnd") }), c.call(b) }, b._mouseDestroy = function () { var b = this; b.element.unbind({ touchstart: a.proxy(b, "_touchStart"), touchmove: a.proxy(b, "_touchMove"), touchend: a.proxy(b, "_touchEnd") }), d.call(b) } } }(jQuery);
 
-  </script>
-  <script>
-    $(function () {
-      $('.connectedSortable').sortable({
-        // このクラス間だけ相互移動できる。
-        connectWith: '.connectedSortable',
-      }).disableSelection();
-    });
-  </script>
   <script>
     let cssIndex = 0;
     const questions = [
       ['A', '我的爱好是看电影', '私の趣味は映画を見ることです。', '电影', '看', '是', '我', '的', '爱好'],
-      ['A', '我是日本人', '私は日本人です。', '日本人', '我', '是'],
-      ['A', '我每天学习中文', '私は毎日中国語を勉強します。', '学习', '每天', '中文', '我'],
+     
     ]
 
     renderQuestion();
     iniCSSSet();
+    // var classElement = document.getElementsByClassName('dataContent');
+    // var answerAll = classElement[0].classList('answer');
+    // var questionAll = classElement[0].classList('question');
+   
+    const answerID = document.getElementById('answerID');
+    const questionID = document.getElementById('questionID');
+    new Sortable(answerID, {
+      group: 'shared', // set both lists to same group
+      animation: 150
+    });
+
+    new Sortable(questionID, {
+      group: 'shared',
+      animation: 150
+    });
+    
     function renderQuestion() {
       const container = document.getElementById('container');
-      let div, p, span, divContent;
+      let div, p, span, divContent, divSpanGroup;
       questions.forEach((question) => {
         divContent = document.createElement('dir');
         divContent.setAttribute('class', 'dataContent');
@@ -112,31 +106,36 @@
         p.textContent = question[2];
         divContent.appendChild(p);
         // 
+        divSpanGroup = document.createElement('div');
         div = document.createElement('div');
-        div.setAttribute('class', 'answer member connectedSortable');
-        divContent.appendChild(div);
+        div.setAttribute('class', 'answer member');
+        div.setAttribute('id', 'answerID');
+        divSpanGroup.appendChild(div);
         span = document.createElement('span');
         span.textContent = '回答：　';
+        span.setAttribute('class', 'draggroup');
         div.appendChild(span);
         // 
         div = document.createElement('div');
-        div.setAttribute('class', 'question member connectedSortable');
-        divContent.appendChild(div);
+        div.setAttribute('class', 'question member');
+        div.setAttribute('id', 'questionID');
+        
+        divSpanGroup.appendChild(div);
         span = document.createElement('span');
         span.textContent = '問題：　';
+        span.setAttribute('class', 'draggroup');
         div.appendChild(span);
         let i;
         for (i = 3; i < question.length; i++) {
           span = document.createElement('span');
           span.textContent = question[i];
-          span.setAttribute('oncdbllick', 'speakDataX(this)')
-          span.setAttribute('onclick', 'speakDataX(this)')
-          span.setAttribute('onmousedown', 'speakData(this)')
+          span.setAttribute('class', 'draggroup');
+          span.setAttribute('onclick', 'speakDataX(this)');
 
           div.appendChild(span);
 
         }
-
+        divContent.appendChild(divSpanGroup);
       });
 
 
