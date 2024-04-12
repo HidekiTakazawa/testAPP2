@@ -120,11 +120,11 @@
           span = document.createElement('span');
           span.textContent = question[i];
           span.setAttribute('class', 'draggroup');
+          span.setAttribute('touchend', 'speakDataX(this)');
           span.setAttribute('onclick', 'speakDataX(this)');
           spanTouched(this);
 
 
-          div.appendChild(span);
 
         }
         divContent.appendChild(divSpanGroup);
@@ -133,14 +133,14 @@
 
     }
     //
-    function spanTouched(e) {
-      const box = $(e);
+    // function spanTouched(e) {
+    //   const box = $(e);
 
-      box.on("touchend", function (e) {
-        console.log('touchend');
-        speakDataX(e);
-      });
-    }
+    //   box.on("touchend", function (e) {
+    //     console.log('touchend');
+    //     speakDataX(e);
+    //   });
+    // }
     //
     const check = document.getElementById('check');
     check.addEventListener('click', () => {
