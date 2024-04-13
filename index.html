@@ -64,6 +64,13 @@
 
 
   <script>
+    let osAndroid = false;
+    let ua = window.navigator.userAgent.toLocaleLowerCase();
+    if (ua.indexOf("android") !== -1) {
+      osAndroid = true;
+      console.log(ua);
+      console.log(ua.indexOf("android"));
+    } 
 
     let cssIndex = 0;
     const questions = [
@@ -120,7 +127,7 @@
           span = document.createElement('span');
           span.textContent = question[i];
           span.setAttribute('class', 'draggroup');
-          span.setAttribute('touchend', 'speakDataX(this)');
+          
           span.setAttribute('onclick', 'speakDataX(this)');
           div.appendChild(span);
           
@@ -200,12 +207,15 @@
         if (hanyuGroup[i].classList.contains('hanyuDisplay')) {
           hanyuGroup[i].classList.remove('hanyuDisplay');
           hanyuGroup[i].classList.add('hanyuNoDisplay');
-        }
+        } 
 
       }
       spanSortable();
     });
     function spanSortable() {
+      if (osAndroid) {
+        return;
+      }
       let answerGroup = document.querySelectorAll('.answer');;
       let questionGroup = document.querySelectorAll('.question');;
       let answerSpans = answerGroup[cssIndex];
